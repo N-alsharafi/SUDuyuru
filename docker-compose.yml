@@ -1,6 +1,6 @@
 services:
   app:
-    build:
+    build: .
     container_name: SUDuyuru-container
     command: python3 ./src/main.py
     ports:
