@@ -32,4 +32,6 @@ docker compose up --build
 * to stop the containers properly run `docker compose down`
 * to start the containers without rebuilding the image `docker compose up`
 
-P.S. make the code as modular and single-function as possible to make future contributions easier to carry out.
+P.S. 
+* Understand the filesystem and code before writing anything
+* write beautiful code (Credit to Linus Torvalds).
