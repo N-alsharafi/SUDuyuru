@@ -9,14 +9,20 @@ an extensive description will be added once there is something to describe...
 ---
 This project is built in containers so that enviroment dependencies are easily consistent.
 
-You will need docker to run this project.
+You will need docker to run this project. You will need to have a working understanding of git, if you don't
+* [this should be your first contribution](https://github.com/firstcontributions/first-contributions)
 
 #### Getting up and running:
-1. clone the directory using
+1. Fork the repository into your account
+2. Clone the directory using
 ```
-git clone link-to-repo.github.com
+git clone link-to-repo/github.com
 ```
-2. navigate to the project folder and run
+3. Navigate to the project folder and create a new branch with the an appropriate title
+```
+git switch -c your-new-branch-name
+```
+24. Run
 ```
 docker compose up --build
 ```
