@@ -16,8 +16,8 @@ services:
     ports:
       - 27017:27017
     environment:
+      - MONGO_INITDB_DATABASE: Duyurular
       - MONGO_INITDB_ROOT_USERNAME: root
       - MONGO_INITDB_ROOT_PASSWORD: root
-      - MONGO_INITDB_DATABASE: Duyurular
     volumes:
-      - ./data/db/:/data/db
+      - ./data/db/mongo_init.js:/docker-entrypoint-initdb.d/mongo_init.js
