@@ -1,5 +1,8 @@
+import time
+from bs4 import BeautifulSoup
+
 print ("hello world!")
-while (True):
-    ext = input("Do you want to exit? (y/n): ")
-    if (ext == "y"):
-        break
+
+# make container run indefinitely
+while True:
+    time.sleep(900)    
