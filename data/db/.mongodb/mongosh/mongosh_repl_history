@@ -1,0 +1,18 @@
+db.test.find()
+db.test.find()\
+db.test.find
+use Duyurular
+show dbs
+db.test.find()
+show collections
+db
+use Duyurular
+db
+db.name
+use Duyurular
+show dbs
+db.test.find()
+db.test.insertOne({'name': "Patrick"})
+show collections
+use Duyurular
+show dbs
