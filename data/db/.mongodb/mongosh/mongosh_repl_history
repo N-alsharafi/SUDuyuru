@@ -1,4 +1,11 @@
 db.test.find()
+use Duyurular
+db.test.find()
+use Duyurular
+exit
+db.test.find()
+use Duyurular
+db.test.find()
 db.test.find()\
 db.test.find
 use Duyurular
@@ -15,4 +22,5 @@ db.test.find()
 db.test.insertOne({'name': "Patrick"})
 show collections
 use Duyurular
+show dbsuse Duyurular
 show dbs
