@@ -10,7 +10,7 @@ def get_database(user, passw, host='host.docker.internal', port=27017):
     # this solution (host='host.docker.internal') now refers to the host machine which is working now.
     # However, if it breaks, try setting static ips in the docker-compose file
 
-    db_data = client.Duyurular #hard coded database name because the variable didn't work
+    db_data = client.Duyurular #hard-coded database name because the variable didn't work
     return db_data
 
 def test_connection(database):
