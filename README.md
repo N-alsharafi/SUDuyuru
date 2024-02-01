@@ -37,6 +37,8 @@ docker compose up --build
 * if you add a new dependency make sure to add it in `requirements.txt`
 * to stop the containers properly run `docker compose down`
 * to start the containers without rebuilding the image `docker compose up`
+* mongoDB will create a directory called data in which it will store all it's files,
+    if it fails to create the file, you might have to create it manually `/data/db/`
 
 P.S. 
 * Understand the filesystem and code before writing anything
