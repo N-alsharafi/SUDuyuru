@@ -18,11 +18,17 @@ You will need docker to run this project. You will need to have a working unders
 ```
 git clone link-to-repo/github.com
 ```
-3. Navigate to the project folder and create a new branch with the an appropriate title
+3. Navigate to the project folder, and create the following file
+```
+./src/creds.py
+```
+To be able to run the project, in the file you will define 3 parameters, username, password and exec. 
+These are the payload parameters which you will have to obtain and add on your own.
+4. Navigate to the project folder and create a new branch with the an appropriate title
 ```
 git switch -c your-new-branch-name
 ```
-24. Run
+5. Run
 ```
 docker compose up --build
 ```
