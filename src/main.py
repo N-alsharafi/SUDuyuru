@@ -20,11 +20,15 @@ def login_operation(username, password):
 def main():
     db = dbOps.connect_to_database('root', 'example')
     html_txt = login_operation(creds.username, creds.password)
-    duyuru_dict = scrapOps.scraper(html_txt) #takes the html, scrapes announcements
+    #duyuru_dict = scrapOps.scraper(html_txt) #takes the html, scrapes announcements
         # and returns a neatly formatted list of dictionaries
     #print title of first announcement
-    print(duyuru_dict[0]['title'])
-
+    #print(duyuru_dict[0]['title'])
+    #dbOps.insert_announcements(duyuru_dict, db)
+    #dbOps.mark_as_sent(duyuru_dict[0], db)
+    #print(dbOps.get_unsent_announcements(db))
+    #dbOps.increment_ann_age(db)
+    #dbOps.wipe_announcements(db)
 
 if __name__ == "__main__":
     main()
