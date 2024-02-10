@@ -93,7 +93,7 @@ def get_unsent_announcements(database):
     announcements = []
     for announcement in database.announcements.find({'sent': {'$not': {'$eq': True}} }):
         announcements.append(announcement)
-    print("Retrieval complete")
+    print("Retrieved ",len(announcements)," unsent announcements from the database")
     return announcements
 
 def mark_as_sent(announcement, database):
@@ -158,5 +158,5 @@ def get_all_clients(database):
     clients = []
     for client in database.clients.find():
         clients.append(client)
-    print("Retrieval complete")
+    print("Retrieved ",len(clients)," clients from the database")
     return clients
