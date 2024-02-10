@@ -22,10 +22,17 @@ git clone link-to-repo/github.com
 ```
 ./src/creds.py
 ```
-To be able to run the project, in the file you will define 3 parameters, username, password and exec. 
-These are the payload parameters which you will have to obtain and add on your own.
+To be able to run the project, in the file you will define 7 parameters:
+1. username
+2. password
+3. exec
+4. port
+5. email_server
+6. email_address
+7. email_password
+These parameters you will have to obtain and add on your own.
 
-4. Navigate to the project folder and create a new branch with the an appropriate title
+8. Navigate to the project folder and create a new branch with the appropriate title
 ```
 git switch -c your-new-branch-name
 ```
