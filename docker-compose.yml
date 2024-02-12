@@ -2,6 +2,8 @@ services:
   app:
     build: .
     container_name: SUDuyuru-container
+    environment:
+     TZ: Etc/GMT-3
     command: python3 ./src/main.py
     ports:
       - 5678:5678
