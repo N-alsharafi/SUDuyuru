@@ -3,3 +3,4 @@ pymongo
 debugpy
 lxml
 requests
+pandas

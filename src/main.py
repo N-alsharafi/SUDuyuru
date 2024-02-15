@@ -4,7 +4,7 @@ import requests
 import creds
 import mailOps
 import time
-
+import clientOps
 
 def login_operation(username, password):
     # Login to mysu
@@ -55,11 +55,14 @@ def main():
 
         if now[0] in days and now[3].split(':')[0] == '09':
             print('suduyuru is going to run, time: ', now[3])
-            suduyuru()
+            clientOps.update_clients() #works..
+            suduyuru(creds.filename)
             time.sleep(60*60)
+
         else:
             print('checked the time, suduyuru has not been run, time is: ',now[3])
             time.sleep(60*60)
+
 
 if __name__ == "__main__":
     main()

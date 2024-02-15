@@ -1,5 +1,5 @@
 # SUDuyuru
-Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.0`
+Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.1.0`
 
 This program sends the announcements made on the MySU platform via email to Sabanci University students.
 
@@ -14,6 +14,8 @@ If you are a student and would like to sign up or opt out, you can do so through
 &nbsp; 
 
 ---
+### New in 1.1.0:
+* Added module to handle updating the client list. The filename must be added in creds.py
 
 &nbsp;  
 
@@ -61,6 +63,7 @@ To be able to run the project, in the file you will define 7 parameters:
 5. email_server
 6. email_address
 7. email_password
+8. filename
 These parameters you will have to obtain and add on your own.
 
 8. In the project folder, create a new branch with a fitting title
