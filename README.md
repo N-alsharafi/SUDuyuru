@@ -1,5 +1,5 @@
 # SUDuyuru
-Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.1.0`
+Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.1.1`
 
 This program sends the announcements made on the MySU platform via email to Sabanci University students.
 
@@ -14,8 +14,13 @@ If you are a student and would like to sign up or opt out, you can do so through
 &nbsp; 
 
 ---
+### New in 1.1.1:
+Fixed a bug where I put the wrong argument in the wrong function.
+
 ### New in 1.1.0:
 * Added module to handle updating the client list. The filename must be added in creds.py
+
+---
 
 &nbsp;  
 

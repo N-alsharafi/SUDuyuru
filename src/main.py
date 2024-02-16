@@ -55,8 +55,8 @@ def main():
 
         if now[0] in days and now[3].split(':')[0] == '09':
             print('suduyuru is going to run, time: ', now[3])
-            clientOps.update_clients() #works..
-            suduyuru(creds.filename)
+            clientOps.update_clients(creds.filename) #works..
+            suduyuru()
             time.sleep(60*60)
 
         else:
