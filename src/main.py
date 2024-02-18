@@ -6,6 +6,23 @@ import mailOps
 import time
 import clientOps
 
+#logging setup
+import logging
+
+logging_level = logging.INFO  #this sets the debugging level for the whole project
+main_logger = logging.getLogger()
+main_logger.setLevel(logging_level)
+
+#stream handler
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging_level)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+stream_handler.setFormatter(formatter)
+
+#add handler to logger
+main_logger.addHandler(stream_handler)
+
+
 def login_operation(username, password):
     # Login to mysu
     target_url = 'https://mysu.sabanciuniv.edu/announcements/en/all' #maybe I shouldn't hardcode this
@@ -46,21 +63,20 @@ def suduyuru():
 def main():
     #suduyuru will be run at 9 am on mondays, wednesdays and fridays
 
-    #the problem is with the docker container time, that's why it worked on my system but not in the container
-    #docker time set to UTC.
-    print('hello, I am running.')
+    main_logger.info('hello, I am running.')
+
     while True:
         now = time.ctime().split(' ')
         days = ['Mon', 'Wed', 'Fri']
 
         if now[0] in days and now[3].split(':')[0] == '09':
-            print('suduyuru is going to run, time: ', now[3])
+            main_logger.info('suduyuru is going to run, time: '+ str(now[3]))
             clientOps.update_clients(creds.filename) #works..
             suduyuru()
             time.sleep(60*60)
 
         else:
-            print('checked the time, suduyuru has not been run, time is: ',now[3])
+            main_logger.info('checked the time, suduyuru has not been run, time is: '+ str(now[3]))
             time.sleep(60*60)
 
 

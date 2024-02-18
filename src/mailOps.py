@@ -4,6 +4,11 @@ from email.utils import formataddr
 
 import dbOps
 
+#logging setup
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def send_mail(email_add, email_pass, email_server, email_port, database):
     """This function will generate the necessary information and send an email"""
@@ -30,7 +35,7 @@ def send_mail(email_add, email_pass, email_server, email_port, database):
         server.login(email_add, email_pass)
         server.send_message(msg)
         server.quit()
-        print(f'Email sent to {len(recievers_email)} recievers')
+        logger.info(f'Email sent to {len(recievers_email)} recievers')
 
     for announcement in announcements:
         dbOps.mark_as_sent(announcement, database) #mark as sent

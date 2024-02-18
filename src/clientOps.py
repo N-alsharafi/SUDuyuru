@@ -1,16 +1,21 @@
 import pandas
 import dbOps
 
-#this is supposed to handle opening the excel of the clients, schedule client list update operations and handle them.
+
+#logging setup
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 
 def open_csv(filename):
     try:
         df = pandas.read_csv(filename)
-        print('CSV file opened successfully')
+        logger.debug('CSV file opened successfully')
         return df
     except Exception as e:
-        print('Error: ', e)
+        logger.error(e)
         return None
 
 
@@ -66,7 +71,7 @@ def update_clients(filename):
     opted_out = who_opt_out(csv)
 
     #update the clients
-    print('Updating the clients list...')
+    logger.debug('Updating the clients list...')
     update_sign_up(db, signed_up)
     update_opt_out(db, opted_out)
-    print('Update complete')
+    logger.info('Updated client list successfully')
