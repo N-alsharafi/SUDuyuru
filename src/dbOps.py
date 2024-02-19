@@ -164,5 +164,5 @@ def get_all_clients(database):
     clients = []
     for client in database.clients.find():
         clients.append(client)
-    logger.info("Retrieved ",len(clients)," clients from the database")
+    logger.info("Retrieved "+ str(len(clients)) +" clients from the database")
     return clients
