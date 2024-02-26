@@ -52,25 +52,97 @@ def mail_body(announcements):
 
 def mail_html_body(announcements):
     """This function will generate the html body of the email"""
-    html_body = f"""\
+    #CSS styling
+    html_body = """\
     <html>
-        <body>
-            <p>Hello,</p>
-            <p>There are <strong>{len(announcements)}</strong> new announcements!</p>
-            """
+    <head>
+        <style>
+            body {
+                background-color: #ffffff;
+                font-family: Arial, sans-serif;
+                text-align: center; /* Align everything to center */
+            }
+    
+            h1 {
+                color: #ffffff;
+            }
+    
+            h2 {
+                font-size: 1.6em;
+                text-align: center; /* Reset text alignment for headings */
+            }
+
+            h3 {
+                font-size: 1.3em;
+                text-align: center; /* Reset text alignment for headings */
+            }
+
+            p {
+                font-size: 1.1em;
+                text-align: center; /* Reset text alignment for paragraphs */
+            }
+    
+            table {
+                width: 100%;
+                font-size: 1.1em;
+                border-collapse: collapse;
+                text-align: left; /* Reset text alignment for table cells */
+            }
+    
+            th, td {
+                border: 0px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+    
+            tr:nth-child(even) {
+                background-color: #ffffff;
+            }
+            
+            .top-bar {
+                background-color: rgb(17, 17, 184);
+                color: white;
+                padding: 0px;
+                text-align: left;
+                text-indent: 20px;
+                font-size: 1.5em;
+            }
+        </style>
+    </head>
+    """
+    #HTML head
+    html_body += f"""\
+    <body>
+    <div class="top-bar">
+        <h1>SUDuyuru</h1>
+    </div>
+    <p>Hello,</p>
+    <h2>There are <strong>{len(announcements)}</strong> new announcements!</h2>
+    <table>
+    """
+    #HTML body
     for announcement in announcements:
         if announcement['new']:
             html_body += f"""\
-            <p><a href="{announcement['link']}"><strong>{announcement['title']}</strong></a></p>
+            <tr>
+                <td><a href="{announcement['link']}"><strong>{announcement['title']}</strong></a></td>
+            </tr>
             """
         else:
             html_body += f"""\
-                <p><a href="{announcement['link']}">{announcement['title']}</a></p>
-                """
-    #add view all announcements link
+            <tr>
+                <td><a href="{announcement['link']}">{announcement['title']}</a></td>
+            </tr>
+            """
+    #HTML foot
     html_body += """\
-            <br>
-            <p><a href="https://mysu.sabanciuniv.edu/announcements/en/all">View all announcements</a></p>
+            </table>
+            <br><br>
+        </br>
+            <p>
+                <a href="https://mysu.sabanciuniv.edu/announcements/en/all">View all announcements</a>
+            </br> or edit your preferences <a href="https://forms.gle/N8ys9iFqx2oKuKq29">here</a>.
+            </p>
             <p>Best,<br>SUDuyuru team</p>
         </body>
     </html>

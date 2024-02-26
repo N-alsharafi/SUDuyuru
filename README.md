@@ -1,5 +1,5 @@
 # SUDuyuru
-Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.1.2`
+Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.2.0`
 
 This program sends the announcements made on the MySU platform via email to Sabanci University students.
 
@@ -14,6 +14,10 @@ If you are a student and would like to sign up or opt out, you can do so through
 &nbsp; 
 
 ---
+### New in 1.2.0:
+* Updated mail content and implemented more advanced html and css for formatting.
+
+
 ### New in 1.1.2:
 * Implemented proper logging instead of print statements, info can now be viewed in docker logs while the container is running.
 
