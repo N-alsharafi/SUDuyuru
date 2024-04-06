@@ -1,0 +1,6 @@
+/.github/
+/src/creds.py
+.venv
+/src/__pycache__
+/data/db
+SUDuyuru (Responses).csv

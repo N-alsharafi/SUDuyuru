@@ -14,9 +14,12 @@ If you are a student and would like to sign up or opt out, you can do so through
 &nbsp; 
 
 ---
+### new in 1.2.1:
+* added versions for packages to ensure SUDuyuru doesn't break with python package updates
+* uploaded the .gitignore to github
+
 ### New in 1.2.0:
 * Updated mail content and implemented more advanced html and css for formatting.
-
 
 ### New in 1.1.2:
 * Implemented proper logging instead of print statements, info can now be viewed in docker logs while the container is running.
@@ -109,7 +112,7 @@ Finally,
 
 ## Upcoming fixes:
 * fix mailing list to circumvent max recepient.
-* set the versions for requirements to ensure SUDuyuru doesn't break as soon as a package update drops
+* proper error handling
 
 ## SUDuyuru v.2.0.
 * Announcements will have attached dates
