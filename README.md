@@ -99,3 +99,19 @@ docker compose up --build
 Finally,
 - Understand the code before changing or adding.
 - have good taste [(Torvalds, 2016)](https://youtu.be/o8NPllzkFhE?si=TZurusgJ8xs1UhSb&t=857)
+
+
+&nbsp; 
+
+&nbsp; 
+
+# Upcoming changes:
+
+## Upcoming fixes:
+* fix mailing list to circumvent max recepient.
+* set the versions for requirements to ensure SUDuyuru doesn't break as soon as a package update drops
+
+## SUDuyuru v.2.0.
+* Announcements will have attached dates
+* Announcements in Turkish option
+
