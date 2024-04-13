@@ -1,5 +1,5 @@
 # SUDuyuru
-Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.2.0`
+Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Version: 1.2.2`
 
 This program sends the announcements made on the MySU platform via email to Sabanci University students.
 
@@ -14,6 +14,10 @@ If you are a student and would like to sign up or opt out, you can do so through
 &nbsp; 
 
 ---
+### new in 1.2.2:
+* proper error handling for dbOps.connect_to_database
+* proper ip resolution for accessing mongodb
+
 ### new in 1.2.1:
 * added versions for packages to ensure SUDuyuru doesn't break with python package updates
 * uploaded the .gitignore to github
