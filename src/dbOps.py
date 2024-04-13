@@ -1,4 +1,5 @@
 import pymongo
+from time import sleep
 
 
 #logging setup
@@ -28,14 +29,22 @@ def test_connection(database):
         return False
     return True
 
-def connect_to_database(user, passw, host='host.docker.internal', port=27017):
+def connect_to_database(user, passw, host='SUDuyuru-mongo', port=27017):
     # Connect to the database
     logger.debug("Connecting to database...")
     db = get_database(user, passw, host, port)
-    if test_connection(db):
-        logger.info("Connection to database is successful")
-    else:
-        logger.error("Connection failed")
+
+    #only return db once connection to db is successful
+    attempts = 0
+    while (not test_connection(db)) and (attempts < 5):
+        attempts += 1
+        logger.warning("Connection failed, retrying...")
+        if (attempts == 5):
+            logger.error("Connection failed after 5 attempts")
+            return None
+        sleep(10)
+
+    logger.info("Connection to database is successful")
     return db
 
 #group of functions to handle the announcements
