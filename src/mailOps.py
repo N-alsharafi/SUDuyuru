@@ -52,8 +52,7 @@ def mail_process(email_add, email_pass, email_server, email_port, database):
         logger.debug(f"Waiting {sleeptime} seconds before sending the next email")
 
 
-    logger.info(f"Sent {len(processed_recievers_email) - failed_emails} emails to {len(recievers_email)} recievers,
-                {failed_emails} emails failed to send.")
+    logger.info(f"Sent {len(processed_recievers_email) - failed_emails} email/s to {len(recievers_email)} reciever/s, {failed_emails} emails failed to send.")
 
     #mark announcements as sent if more than half the emails were sent successfully
     if(failed_emails < len(processed_recievers_email)/2):
