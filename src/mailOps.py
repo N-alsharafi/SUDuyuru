@@ -1,6 +1,8 @@
 import smtplib
 from email.message import EmailMessage
 from email.utils import formataddr
+from time import sleep
+from random import randint
 
 import dbOps
 
@@ -10,18 +12,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def send_mail(email_add, email_pass, email_server, email_port, database):
-    """This function will generate the necessary information and send an email"""
+def mail_process(email_add, email_pass, email_server, email_port, database):
+    """This function will generate the necessary information and send an email
+    it will also split the client list into groups of 9 and send them respective emails
+    with a random wait time in-between to avoid triggering the spam filter"""
+    
     #generate variables using functions
     announcements = dbOps.get_unsent_announcements(database)
     recievers_email = [client['email'] for client in dbOps.get_all_clients(database)]
 
+    #split the recievers_email list into chunks of 9
+    processed_recievers_email = [recievers_email[i:i+9] for i in range(0, len(recievers_email), 9)]
+        #length set to 9 because 10 or more trips the filter
+
     #email message
     msg = EmailMessage()
     msg['Subject'] = f"{len(announcements)} New Announcements!"
-    msg['From'] = formataddr(('SU Duyuru', email_add))
+    msg['From'] = formataddr(('duyuruSU', email_add))  #it would be funny if this became duyuruSU
     msg['To'] = email_add
-    msg['Bcc'] = ', '.join(recievers_email) # Convert list to comma-separated string
 
     body = mail_body(announcements)
     html_body = mail_html_body(announcements)
@@ -29,17 +37,64 @@ def send_mail(email_add, email_pass, email_server, email_port, database):
     msg.set_content(body)
     msg.add_alternative(html_body, subtype='html')
 
+
     #send message
-    with smtplib.SMTP(email_server, email_port) as server:
-        server.starttls()
-        server.login(email_add, email_pass)
-        server.send_message(msg)
-        server.quit()
-        logger.info(f'Email sent to {len(recievers_email)} recievers')
+    failed_emails = 0
 
-    for announcement in announcements:
-        dbOps.mark_as_sent(announcement, database) #mark as sent
+    for recievers_group in processed_recievers_email:
+        sent_successfully = send_mail(email_add, email_pass, email_server, email_port, recievers_group, msg)
+        if not sent_successfully:
+            failed_emails += 1
 
+        #wait a random amount of time between emails
+        sleeptime = randint(3, 15)      #this stands to be adjusted
+        sleep(sleeptime)
+        logger.debug(f"Waiting {sleeptime} seconds before sending the next email")
+
+
+    logger.info(f"Sent {len(processed_recievers_email) - failed_emails} emails to {len(recievers_email)} recievers,
+                {failed_emails} emails failed to send.")
+
+    #mark announcements as sent if more than half the emails were sent successfully
+    if(failed_emails < len(processed_recievers_email)/2):
+        for announcement in announcements:
+            dbOps.mark_as_sent(announcement, database)
+        
+        logger.info("Marked announcements as sent")
+    else:
+        logger.info("Did not mark announcements as sent due to too many failed emails")
+
+
+def send_mail(email_add, email_pass, email_server, email_port, recievers_group, mail_obj):
+    """This function will get the necessary mail sending information, a sublist of 
+    processed_recievers_email and the mail object that already contains the email except msg['Bcc']
+    Function will complete mail object, open a session and mail the email
+    returns true if successful, false otherwise
+    """
+    #complete the mail object
+    mail_obj['Bcc'] = ', '.join(recievers_group) # Convert list to comma-separated string
+
+    #send message
+    logger.debug(f"Starting to send email to {len(recievers_group)} recievers")
+
+
+    """The random sleep functionality could probably be implemented without
+    disconnecting from the server, but that's an problem for another day.
+    """
+    try:
+        with smtplib.SMTP(email_server, email_port) as server:
+            server.starttls()
+            server.login(email_add, email_pass)
+            server.send_message(mail_obj)
+            server.quit()
+            logger.debug(f'Email sent to {len(recievers_group)} recievers')
+
+        return True
+    
+    except:
+        logger.error(f"Failed to send email to {len(recievers_group)} recievers")
+        return False
+    
 
 def mail_body(announcements):
     """This function will generate the body of the email"""
