@@ -25,24 +25,15 @@ def mail_process(email_add, email_pass, email_server, email_port, database):
     processed_recievers_email = [recievers_email[i:i+9] for i in range(0, len(recievers_email), 9)]
         #length set to 9 because 10 or more trips the filter
 
-    #email message
-    msg = EmailMessage()
-    msg['Subject'] = f"{len(announcements)} New Announcements!"
-    msg['From'] = formataddr(('duyuruSU', email_add))  #it would be funny if this became duyuruSU
-    msg['To'] = email_add
-
     body = mail_body(announcements)
     html_body = mail_html_body(announcements)
-
-    msg.set_content(body)
-    msg.add_alternative(html_body, subtype='html')
 
 
     #send message
     failed_emails = 0
 
     for recievers_group in processed_recievers_email:
-        sent_successfully = send_mail(email_add, email_pass, email_server, email_port, recievers_group, msg)
+        sent_successfully = send_mail(email_add, email_pass, email_server, email_port, recievers_group, body, html_body, len(announcements))
         if not sent_successfully:
             failed_emails += 1
 
@@ -64,17 +55,24 @@ def mail_process(email_add, email_pass, email_server, email_port, database):
         logger.info("Did not mark announcements as sent due to too many failed emails")
 
 
-def send_mail(email_add, email_pass, email_server, email_port, recievers_group, mail_obj):
+def send_mail(email_add, email_pass, email_server, email_port, recievers_group, body, html_body, no_of_announcements):
     """This function will get the necessary mail sending information, a sublist of 
     processed_recievers_email and the mail object that already contains the email except msg['Bcc']
     Function will complete mail object, open a session and mail the email
     returns true if successful, false otherwise
     """
-    #complete the mail object
-    mail_obj['Bcc'] = ', '.join(recievers_group) # Convert list to comma-separated string
+    #construct the mail object
+    msg = EmailMessage()
+    msg['Subject'] = f"{no_of_announcements} New Announcements!"
+    msg['From'] = formataddr(('duyuruSU', email_add))  #it would be funny if this became duyuruSU
+    msg['To'] = email_add
+    msg['Bcc'] = ', '.join(recievers_group) # Convert list to comma-separated string
+
+    msg.set_content(body)
+    msg.add_alternative(html_body, subtype='html')
 
     #send message
-    logger.debug(f"Starting to send email to {len(recievers_group)} recievers")
+    logger.debug(f"Starting to send email to {len(recievers_group)} reciever/s")
 
 
     """The random sleep functionality could probably be implemented without
@@ -84,14 +82,14 @@ def send_mail(email_add, email_pass, email_server, email_port, recievers_group, 
         with smtplib.SMTP(email_server, email_port) as server:
             server.starttls()
             server.login(email_add, email_pass)
-            server.send_message(mail_obj)
+            server.send_message(msg)
             server.quit()
-            logger.debug(f'Email sent to {len(recievers_group)} recievers')
+            logger.debug(f'Email sent to {len(recievers_group)} reciever/s')
 
         return True
     
     except:
-        logger.error(f"Failed to send email to {len(recievers_group)} recievers")
+        logger.error(f"Failed to send email to {len(recievers_group)} reciever/s")
         return False
     
 

@@ -53,7 +53,7 @@ def suduyuru():
     dbOps.insert_announcements(duyuru_dict, db)
 
     #send the email
-    mailOps.send_mail(creds.email_address, creds.email_password, creds.email_server, creds.port, db)
+    mailOps.mail_process(creds.email_address, creds.email_password, creds.email_server, creds.port, db)
 
     #manage old announcements
     dbOps.increment_ann_age(db)
@@ -61,23 +61,32 @@ def suduyuru():
 
 
 def main():
-    #suduyuru will be run at 9 am on mondays, wednesdays and fridays
+    #suduyuru will be run between 9 and 10 am on mondays, wednesdays and fridays
+    #set the scheduler to 0 if you want to run it manually
+    scheduler = 1
 
     main_logger.info('hello, I am running.')
 
-    while True:
-        now = time.ctime().split(' ')
-        days = ['Mon', 'Wed', 'Fri']
 
-        if now[0] in days and now[3].split(':')[0] == '09':
-            main_logger.info('suduyuru is going to run, time: '+ str(now[3]))
-            clientOps.update_clients(creds.filename) #works..
-            suduyuru()
-            time.sleep(60*60)
+    if (scheduler == 1):
+        while True:
+            now = time.ctime().split(' ')
+            days = ['Mon', 'Wed', 'Fri']
 
-        else:
-            main_logger.info('checked the time, suduyuru has not been run, time is: '+ str(now[3]))
-            time.sleep(60*60)
+            if now[0] in days and now[3].split(':')[0] == '09':
+                main_logger.info('suduyuru is going to run, time: '+ str(now[3]))
+                clientOps.update_clients(creds.filename) #works..
+                suduyuru()
+                time.sleep(60*60)
+
+            else:
+                main_logger.info('checked the time, suduyuru has not been run, time is: '+ str(now[3]))
+                time.sleep(60*60)
+    
+    elif (scheduler == 0):
+        main_logger.info(str(time.ctime()))
+        clientOps.update_clients(creds.filename) #works..
+        suduyuru()
 
 
 if __name__ == "__main__":
