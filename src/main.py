@@ -9,7 +9,7 @@ import clientOps
 #logging setup
 import logging
 
-logging_level = logging.INFO  #this sets the debugging level for the whole project
+logging_level = logging.DEBUG  #this sets the debugging level for the whole project
 main_logger = logging.getLogger()
 main_logger.setLevel(logging_level)
 
@@ -28,7 +28,7 @@ def login_operation(username, password):
     target_url = 'https://mysu.sabanciuniv.edu/announcements/en/all' #maybe I shouldn't hardcode this
     login_url = 'https://login.sabanciuniv.edu/cas/login?service=https%3A%2F%2Fmysu.sabanciuniv.edu%2Fannouncements%2Fen%2Fall'
     evid = 'submit'
-    login_data = {'username': username, 'password': password, 'execution': creds.exec, '_eventId': evid}
+    login_data = {'username': username, 'password': password, 'execution': creds.exec, '_eventId': evid, 'geolocation': ''}
 
     with requests.Session() as s:
         r = s.post(login_url, data=login_data)
@@ -62,8 +62,16 @@ def suduyuru():
 
 def main():
     #suduyuru will be run between 9 and 10 am on mondays, wednesdays and fridays
-    #set the scheduler to 0 if you want to run it manually
-    scheduler = 1
+
+
+    #-----------------------------------------
+
+    #set the scheduler to 0 if you want to run it manually, 
+    # set to 1 if you want to run it automatically
+    scheduler = 0
+
+    #-----------------------------------------
+
 
     main_logger.info('hello, I am running.')
 
