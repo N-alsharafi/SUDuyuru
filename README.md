@@ -53,6 +53,7 @@ If you are a student and would like to sign up or opt out (after having signed u
 ## Upcoming fixes/features:
 * proper error handling
 * important announcements section
+* tests
 
 ## SUDuyuru v.2.0.
 * Announcements will have attached dates

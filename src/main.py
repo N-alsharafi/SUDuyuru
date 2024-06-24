@@ -9,7 +9,7 @@ import clientOps
 #logging setup
 import logging
 
-logging_level = logging.DEBUG  #this sets the debugging level for the whole project
+logging_level = logging.INFO  #this sets the debugging level for the whole project
 main_logger = logging.getLogger()
 main_logger.setLevel(logging_level)
 
