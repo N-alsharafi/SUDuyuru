@@ -6,6 +6,9 @@ from random import randint
 
 import dbOps
 
+#config
+import config
+
 #logging setup
 import logging
 
@@ -32,6 +35,13 @@ def mail_process(email_add, email_pass, email_server, email_port, database):
     #send message
     failed_emails = 0
 
+    #testing setup
+    if(config.testing):
+        logger.warning("Testing mode is ON, email will ONLY be sent to loopback address")
+        recievers_email = ['']
+        processed_recievers_email = [['']]
+
+
     for recievers_group in processed_recievers_email:
         sent_successfully = send_mail(email_add, email_pass, email_server, email_port, recievers_group, body, html_body, len(announcements))
         if not sent_successfully:
@@ -46,13 +56,20 @@ def mail_process(email_add, email_pass, email_server, email_port, database):
     logger.info(f"Sent {len(processed_recievers_email) - failed_emails} email/s to {len(recievers_email)} reciever/s, {failed_emails} emails failed to send.")
 
     #mark announcements as sent if more than half the emails were sent successfully
-    if(failed_emails < len(processed_recievers_email)/2):
-        for announcement in announcements:
-            dbOps.mark_as_sent(announcement, database)
-        
-        logger.info("Marked announcements as sent")
+    if(not config.testing):
+
+        logging.debug("Testing mode is OFF, marking announcements as sent")
+
+        if(failed_emails < len(processed_recievers_email)/2):
+            for announcement in announcements:
+                dbOps.mark_as_sent(announcement, database)
+            
+            logger.info("Marked announcements as sent")
+        else:
+            logger.info("Did not mark announcements as sent due to too many failed emails")
+    
     else:
-        logger.info("Did not mark announcements as sent due to too many failed emails")
+        logger.warning("Testing mode is ON, announcements not marked as sent")
 
 
 def send_mail(email_add, email_pass, email_server, email_port, recievers_group, body, html_body, no_of_announcements):
@@ -66,7 +83,9 @@ def send_mail(email_add, email_pass, email_server, email_port, recievers_group, 
     msg['Subject'] = f"{no_of_announcements} New Announcements!"
     msg['From'] = formataddr(('duyuruSU', email_add))  #it would be funny if this became duyuruSU
     msg['To'] = email_add
-    msg['Bcc'] = ', '.join(recievers_group) # Convert list to comma-separated string
+
+    if(not config.testing):
+        msg['Bcc'] = ', '.join(recievers_group) # Convert list to comma-separated string #TODO: change this for testing
 
     msg.set_content(body)
     msg.add_alternative(html_body, subtype='html')

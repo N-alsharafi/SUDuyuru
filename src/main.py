@@ -6,10 +6,13 @@ import mailOps
 import time
 import clientOps
 
+#config
+import config
+
 #logging setup
 import logging
 
-logging_level = logging.INFO  #this sets the debugging level for the whole project
+logging_level = config.log_lvl  #this sets the debugging level for the whole project
 main_logger = logging.getLogger()
 main_logger.setLevel(logging_level)
 
@@ -25,10 +28,15 @@ main_logger.addHandler(stream_handler)
 
 def login_operation(username, password):
     # Login to mysu
-    target_url = 'https://mysu.sabanciuniv.edu/announcements/en/all' #maybe I shouldn't hardcode this
-    login_url = 'https://login.sabanciuniv.edu/cas/login?service=https%3A%2F%2Fmysu.sabanciuniv.edu%2Fannouncements%2Fen%2Fall'
+    target_url = 'https://mysu.sabanciuniv.edu/announcements/en/all?ticket=ST-0e48ed5039c68ec6315ee542a48dcbd76b6525b2ff7adeea89238066dc30c791' #maybe I shouldn't hardcode this
+    login_url = 'https://login.sabanciuniv.edu/CASV/LoginAction'
     evid = 'submit'
-    login_data = {'username': username, 'password': password, 'execution': creds.exec, '_eventId': evid, 'geolocation': ''}
+    login_data = {'ReturnUrl': '',
+                  'LoginType': '',
+                  'Email': username, 'Password': password,
+                  'g-recaptcha-response': '',
+                   '__RequestVerificationToken': creds.vertok,
+                   }
 
     with requests.Session() as s:
         r = s.post(login_url, data=login_data)
@@ -56,27 +64,23 @@ def suduyuru():
     mailOps.mail_process(creds.email_address, creds.email_password, creds.email_server, creds.port, db)
 
     #manage old announcements
-    dbOps.increment_ann_age(db)
-    dbOps.wipe_old_announcements(db)
+    if(not config.testing):
+
+        main_logger.debug("Testing mode is OFF, updating announcement age and wiping old announcements")
+
+        dbOps.increment_ann_age(db)
+        dbOps.wipe_old_announcements(db)
+
+    else:
+        main_logger.warning("Testing mode is ON, announcement ages not changed")
 
 
 def main():
-    #suduyuru will be run between 9 and 10 am on mondays, wednesdays and fridays
-
-
-    #-----------------------------------------
-
-    #set the scheduler to 0 if you want to run it manually, 
-    # set to 1 if you want to run it automatically
-    scheduler = 0
-
-    #-----------------------------------------
-
 
     main_logger.info('hello, I am running.')
 
 
-    if (scheduler == 1):
+    if (config.scheduler == 1):
         while True:
             now = time.ctime().split(' ')
             days = ['Mon', 'Wed', 'Fri']
@@ -91,7 +95,7 @@ def main():
                 main_logger.info('checked the time, suduyuru has not been run, time is: '+ str(now[3]))
                 time.sleep(60*60)
     
-    elif (scheduler == 0):
+    elif (config.scheduler == 0):
         main_logger.info(str(time.ctime()))
         clientOps.update_clients(creds.filename) #works..
         suduyuru()
