@@ -28,9 +28,9 @@ main_logger.addHandler(stream_handler)
 
 def login_operation(username, password):
     # Login to mysu
-    target_url = 'https://mysu.sabanciuniv.edu/announcements/en/all?ticket=ST-0e48ed5039c68ec6315ee542a48dcbd76b6525b2ff7adeea89238066dc30c791' #maybe I shouldn't hardcode this
+    target_url = 'https://mysu.sabanciuniv.edu/announcements/en/all' #maybe I shouldn't hardcode this
     login_url = 'https://login.sabanciuniv.edu/CASV/LoginAction'
-    evid = 'submit'
+    evid = 'submit' #TODO: remove dead code
     login_data = {'ReturnUrl': '',
                   'LoginType': '',
                   'Email': username, 'Password': password,
@@ -39,6 +39,7 @@ def login_operation(username, password):
                    }
 
     with requests.Session() as s:
+        r = s.get(target_url, allow_redirects=True)
         r = s.post(login_url, data=login_data)
         r = s.get(target_url)
         return r.text
