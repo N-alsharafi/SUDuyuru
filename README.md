@@ -3,6 +3,8 @@ Sabanci University announcements-via-email service.  &nbsp; &nbsp;  `Current Ver
 
 This software sends the announcements made on the MySU platform via email to Sabanci University students.
 
+DISCLAIMER: During the Fall of 2024, the university finally fixed their MySU app notifications, defeating the purpose of this software. This software is now obsolete.
+
 &nbsp;  
 
 ## How do I get the announcements? 
@@ -62,6 +64,7 @@ If you are a student and would like to sign up or opt out (after having signed u
 * proper error handling
 * important announcements section
 * tests
+* switch to environmental variables
 
 ## SUDuyuru v.2.0.
 * Announcements will have attached dates
